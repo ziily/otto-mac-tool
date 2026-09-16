@@ -22,7 +22,7 @@ jobs:
 
       - name: Build with PyInstaller
         run: |
-            pyinstaller --noconfirm --onedir --windowed --name OttoReviewTool \
+            pyinstaller --noconfirm  --windowed --name OttoReviewTool \
             --hidden-import openpyxl --hidden-import openpyxl.styles \
             --hidden-import openpyxl.utils main2.py
 
