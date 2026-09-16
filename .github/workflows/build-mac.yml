@@ -1,0 +1,33 @@
+name: Build Mac App
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  build-mac:
+    runs-on: macos-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: pip install requests openpyxl pyinstaller
+
+      - name: Build with PyInstaller
+        run: |
+          pyinstaller --noconfirm --onefile --windowed --name OttoReviewTool \
+            --hidden-import openpyxl --hidden-import openpyxl.styles \
+            --hidden-import openpyxl.utils main2.py
+
+      - name: Upload Mac App
+        uses: actions/upload-artifact@v4
+        with:
+          name: Mac-OttoReviewTool
+          path: dist/*
