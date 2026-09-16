@@ -22,12 +22,19 @@ jobs:
 
       - name: Build with PyInstaller
         run: |
-            pyinstaller --noconfirm  --windowed --name OttoReviewTool \
+          pyinstaller --noconfirm --windowed --name OttoReviewTool \
+            --osx-bundle-identifier com.otto.reviewtool \
+            --target-architecture universal2 \
             --hidden-import openpyxl --hidden-import openpyxl.styles \
             --hidden-import openpyxl.utils main2.py
+
+      - name: Zip the .app properly
+        run: |
+          cd dist
+          zip -r -y OttoReviewTool-mac.zip OttoReviewTool.app
 
       - name: Upload Mac App
         uses: actions/upload-artifact@v4
         with:
           name: Mac-OttoReviewTool
-          path: dist/*
+          path: dist/OttoReviewTool-mac.zip
